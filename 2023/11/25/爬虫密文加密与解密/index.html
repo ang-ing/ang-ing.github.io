@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="ang-ing">
+  <link 
+    rel="icon" 
+    href="/">
+  <title>爬虫密文加密与解密</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="爬虫密文加密与解密">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="https://img.songhn.com/img/Y67gdd.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2023-11-25">
+      <meta 
+        property="og:article:modified_time" 
+        content="2023-11-25">
+      <meta 
+        property="og:article:author" 
+        content="ANGING">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="爬虫">
+        
+      
+    
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  <link rel="preload" href="/css/main.css" as="style" >
+  
+  <link rel="modulepreload" href="//instant.page/5.1.0">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+  
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <a class="navbar-logo-main" href="/">
+      
+      <span class="navbar-logo-dsc">ANGING的博客</span>
+      </a>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <button 
+      class="navbar-menu-item darknavbar navbar-menu-btn" 
+      aria-label="Toggle dark mode"
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </button>
+    <button 
+      class="navbar-menu-item searchnavbar navbar-menu-btn" 
+      aria-label="Toggle search"
+      id="search">
+      <!-- <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i> -->
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+        class="iconify iconify--ion" width="28" height="28" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M256 80a176 176 0 1 0 176 176A176 176 0 0 0 256 80Z"></path>
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M232 160a72 72 0 1 0 72 72a72 72 0 0 0-72-72Z"></path>
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="28"
+          d="M283.64 283.64L336 336"></path>
+      </svg>
+    </button>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="https://img.songhn.com/img/Y67gdd.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">ANGING</p>
+<p class="author-description">学习记录</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>3</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>0</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>2</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86"><span class="toc-number">1.</span> <span class="toc-text">爬虫密文加密与解密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">编码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#base%E7%B3%BB%E5%88%97%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">base系列编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.2.</span> <span class="toc-text">Unicode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL-Hex%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">URL &#x2F; Hex编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MD5"><span class="toc-number">1.2.1.</span> <span class="toc-text">MD5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHA-%E7%B3%BB%E5%88%97"><span class="toc-number">1.2.2.</span> <span class="toc-text">SHA 系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HMAC%E7%B3%BB%E5%88%97"><span class="toc-number">1.2.3.</span> <span class="toc-text">HMAC系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA"><span class="toc-number">1.2.4.</span> <span class="toc-text">RSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES%E3%80%81DES"><span class="toc-number">1.2.5.</span> <span class="toc-text">AES、DES</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/%E7%88%AC%E8%99%AB/" 
+        title="爬虫">
+        <div class="tags-list-item">爬虫</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%B5%8B%E8%AF%95/" 
+        title="测试">
+        <div class="tags-list-item">测试</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <main class="main-column">
+              
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      爬虫密文加密与解密
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2023-11-25T10:03:33.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2023-11-25</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>1.4k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/%E7%88%AC%E8%99%AB/" 
+            class="post-meta-link">
+            爬虫
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="爬虫密文加密与解密"><a href="#爬虫密文加密与解密" class="headerlink" title="爬虫密文加密与解密"></a>爬虫密文加密与解密</h1><h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><h3 id="base系列编码"><a href="#base系列编码" class="headerlink" title="base系列编码"></a>base系列编码</h3><ul>
+<li>Base16：结尾没有等号，数字多于字母</li>
+<li>Base32：字母多余数字，明文数量超过10个，结尾可能有等号</li>
+<li>Base58：结尾没有等号，字母多于数字</li>
+<li>Base64：一般情况下，结尾可能有1个或者两个等号，明文很少的时候可能没有</li>
+<li>Base85：等号一般出现在字符串中间，含有除数字和字母之外的字符</li>
+<li>Base100：密文又表情组成</li>
+</ul>
+<p>示例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">编码类型</th>
+<th align="left">示例一</th>
+<th align="left">示例二</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明文</td>
+<td align="left">01234567890</td>
+<td align="left">administrators</td>
+</tr>
+<tr>
+<td align="left">Base16</td>
+<td align="left"><code>3031323334353637383930</code></td>
+<td align="left"><code>61646D696E6973747261746F7273</code></td>
+</tr>
+<tr>
+<td align="left">Base32</td>
+<td align="left"><code>GAYTEMZUGU3DOOBZGA======</code></td>
+<td align="left"><code>MFSG22LONFZXI4TBORXXE4Y=</code></td>
+</tr>
+<tr>
+<td align="left">Base58</td>
+<td align="left"><code>cX8j8pvGzppMKVb</code></td>
+<td align="left"><code>BNF5dFLUTN5XwM1yLoF</code></td>
+</tr>
+<tr>
+<td align="left">Base64</td>
+<td align="left"><code>MDEyMzQ1Njc4OTA=</code></td>
+<td align="left"><code>YWRtaW5pc3RyYXRvcnM=</code></td>
+</tr>
+<tr>
+<td align="left">Base85</td>
+<td align="left"><code>0JP==1c70M3&amp;rY</code></td>
+<td align="left"><code>@:X4hDJ=06Eaa&#39;.EcV</code></td>
+</tr>
+<tr>
+<td align="left">Base100</td>
+<td align="left"><code>🐧🐨🐩🐪🐫🐬🐭🐮🐯🐰🐧</code></td>
+<td align="left"><code>👘👛👤👠👥👠👪👫👩👘👫👦👩👪</code></td>
+</tr>
+</tbody></table>
+<h3 id="Unicode编码"><a href="#Unicode编码" class="headerlink" title="Unicode编码"></a>Unicode编码</h3><ul>
+<li>以<strong>\u</strong>、**&amp;#<strong>或</strong>&amp;#x**开头，后面是数字加字母组合</li>
+</ul>
+<p><code> Ps：\u开头和$#x开头是一样的，都是16进制Unicode字符的不同写法，&amp;#则是Unicode字符十进制的写法</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">编码类型</th>
+<th align="left">示例一</th>
+<th align="left">示例二</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明文</td>
+<td align="left">12345</td>
+<td align="left">admin</td>
+</tr>
+<tr>
+<td align="left">Unicode</td>
+<td align="left"><code>\u0031\u0032\u0033\u0034\u0035</code></td>
+<td align="left"><code>\u0061\u0064\u006d\u0069\u006e</code></td>
+</tr>
+</tbody></table>
+<h3 id="URL-Hex编码"><a href="#URL-Hex编码" class="headerlink" title="URL &#x2F; Hex编码"></a>URL &#x2F; Hex编码</h3><p>URL和Hex编码的结果是一样的，不同的是当你用URL编码网址时不会吧http、https关键字和&#x2F; 、?、&amp;、&#x3D;等连接字符进行编码，而Hex编码则全部转化</p>
+<ul>
+<li>以%开头，后面时数字加字母组合</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">编码类型</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明文</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.kuaidaili.com/">https://www.kuaidaili.com/</a></td>
+</tr>
+<tr>
+<td align="left">Unicode</td>
+<td align="left"><code>https://%77%77%77%2E%6B%75%61%69%64%61%69%6C%69%2E%63%6F%6D/</code></td>
+</tr>
+<tr>
+<td align="left">Hex</td>
+<td align="left"><code>%68%74%74%70%73%3a%2f%2f%77%77%77%2e%6b%75%61%69%64%61%69%6c%69%2e%63%6f%6d%2f</code></td>
+</tr>
+</tbody></table>
+<h2 id="加密算法"><a href="#加密算法" class="headerlink" title="加密算法"></a>加密算法</h2><h3 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h3><p>MD5实质是一种消息摘要算法，一个数据的MD5值是唯一的，不会被计算出多个不同的MD5值，但不同的数据计算出来的MD5值有可能一样</p>
+<ul>
+<li>密文一般为16位或者32位，其中16位是取32位的第9~25位的值</li>
+<li>组成方式为字母和数字混合，字母可以全部是大写或者小写</li>
+</ul>
+<p>除了通过密文的特征来判断以外，还可以通过搜索源码，标准的MD5的源码里面是包含了一些特定的值，没有这些值就无法实现MD5：</p>
+<ul>
+<li><code>0123456789ABCDEF</code>、<code>0123456789abcdef</code></li>
+<li><code>1732584193</code>、<code>-271733879</code>、<code>-1732584194</code>、<code>271733878</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">编码类型</th>
+<th align="left">示例一</th>
+<th align="left">示例二</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明文</td>
+<td align="left">123456</td>
+<td align="left">admin</td>
+</tr>
+<tr>
+<td align="left">MD5（16位小写）</td>
+<td align="left"><code>49ba59abbe56e057</code></td>
+<td align="left"><code>7a57a5a743894a0e</code></td>
+</tr>
+<tr>
+<td align="left">MD5（16位大写）</td>
+<td align="left"><code>49BA59ABBE56E057</code></td>
+<td align="left"><code>7A57A5A743894A0E</code></td>
+</tr>
+<tr>
+<td align="left">MD5（32位小写）</td>
+<td align="left"><code>e10adc3949ba59abbe56e057f20f883e</code></td>
+<td align="left"><code>21232f297a57a5a743894a0e4a801fc3</code></td>
+</tr>
+<tr>
+<td align="left">MD5（32位大写）</td>
+<td align="left"><code>E10ADC3949BA59ABBE56E057F20F883E</code></td>
+<td align="left"><code>21232F297A57A5A743894A0E4A801FC3</code></td>
+</tr>
+</tbody></table>
+<h3 id="SHA-系列"><a href="#SHA-系列" class="headerlink" title="SHA 系列"></a>SHA 系列</h3><ul>
+<li>SHA-1：字母（a-f）和数字混合，固定位数40位</li>
+<li>SHA-224&#x2F;SHA3-224：字母（a-f）和数字混合，固定位数56位</li>
+<li>SHA-256&#x2F;SHA3-256：字母（a-f）和数字混合，固定位数64位</li>
+<li>SHA-384&#x2F;SHA3-384：字母（a-f）和数字混合，固定位数96位</li>
+<li>SHA-512&#x2F;SHA3-512：字母（a-f）和数字混合，固定位数56位</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">编码类型</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明文</td>
+<td align="left">123456</td>
+</tr>
+<tr>
+<td align="left">SHA-1</td>
+<td align="left"><code>7c4a8d09ca3762af61e59520943dc26494f8941b</code></td>
+</tr>
+<tr>
+<td align="left">SHA-256</td>
+<td align="left"><code>8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92</code></td>
+</tr>
+<tr>
+<td align="left">SHA3-256</td>
+<td align="left"><code>c888c9ce9e098d5864d3ded6ebcc140a12142263bace3a23a36f9905f12bd64a</code></td>
+</tr>
+</tbody></table>
+<h3 id="HMAC系列"><a href="#HMAC系列" class="headerlink" title="HMAC系列"></a>HMAC系列</h3><p>HMAC 这种算法就是在 MD5、SHA 两种加密的基础上引入了秘钥，其密文也和 MD5、SHA 类似，密文的长度和使用的 MD5、SHA 算法对应密文的长度是一样的。特征如下：</p>
+<ul>
+<li>HMAC-MD5：字母（a-f）和数字（0-9）混合，位数一般为 32 位；</li>
+<li>HMAC-SHA-1：字母（a-f）和数字（0-9）混合，固定位数 40 位；</li>
+<li>HMAC-SHA-224 &#x2F; HMAC-SHA3-224：字母（a-f）和数字（0-9）混合，固定位数 56 位；</li>
+<li>HMAC-SHA-256 &#x2F; HMAC-SHA3-256：字母（a-f）和数字（0-9）混合，固定位数 64 位；</li>
+<li>HMAC-SHA-384 &#x2F; HMAC-SHA3-384：字母（a-f）和数字（0-9）混合，固定位数 96 位；</li>
+<li>HMAC-SHA-512 &#x2F; HMAC-SHA3-512：字母（a-f）和数字（0-9）混合，固定位数 128 位。</li>
+</ul>
+<p>HMAC 和 SHA、MD5 的密文都很像，当无法确定是否为 HMAC 时，可以通过其名称搜索到加密方法，如果传入了密钥 key，说明就是 HMAC，当然你也可以直接当做是 SHA 或 MD5 来解，解密失败时就得考虑是否有密钥，是否为 HMAC 了，在 JS 中，通常一个 HMAC 加密方法是这样写的：</p>
+<pre class="highlight"><span class="line"><span class="keyword">function</span> <span class="title function_">HmacSHA1Encrypt</span>(<span class="params">word, key</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">CryptoJS</span>.<span class="title class_">HmacSHA1</span>(word, key).<span class="title function_">toString</span>();</span><br><span class="line">&#125;</span><br></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">编码类型</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">明文</td>
+<td align="left">123456</td>
+</tr>
+<tr>
+<td align="left">HMAC-MD5</td>
+<td align="left"><code>432bb95bb00005ddce4a1c757488ed95</code></td>
+</tr>
+<tr>
+<td align="left">HMAC-SHA-1</td>
+<td align="left"><code>37a04076b7736c44460d330ee0d00014428b175e</code></td>
+</tr>
+<tr>
+<td align="left">HMAC-SHA-256</td>
+<td align="left"><code>50cb1345366df11140fb91b43caaf69627e3f5529705ddf6b0d0cae67986e585</code></td>
+</tr>
+<tr>
+<td align="left">HMAC-SHA3-256</td>
+<td align="left"><code>b808ed9f66436e89fba527a01d1d6044318fea8599d9f39bfb6bec4843964bf3</code></td>
+</tr>
+</tbody></table>
+<h3 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h3><p>RSA 加密算法是一种非对称加密算法，通过公钥加密结果，必须私钥解密。 同样私钥加密结果，公钥可以解密，应用非常广泛，在网站中通常使用 JSEncrypt 库来实现，其最大的特征就是有一个设置公钥的过程，我们可以通过</p>
+<p>以下方法来快速初步判断是否为 RSA 算法：</p>
+<ul>
+<li>搜索关键词 <code>new JSEncrypt()</code>，<code>JSEncrypt</code> 等，一般会使用 JSEncrypt 库，会有 new 一个实例对象的操作；</li>
+<li>搜索关键词 <code>setPublicKey</code>、<code>setKey</code>、<code>setPrivateKey</code>、<code>getPublicKey</code> 等，一般实现的代码里都含有设置密钥的过程；</li>
+<li>RSA 的私钥、公钥、明文、密文长度也有一定对应关系，也可以从这方面初步判断：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">私钥长度（Base64）</th>
+<th align="left">公钥长度（Base64）</th>
+<th align="left">明文长度</th>
+<th align="left">密文长度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">428</td>
+<td align="left">128</td>
+<td align="left">1~53</td>
+<td align="left">88</td>
+</tr>
+<tr>
+<td align="left">812</td>
+<td align="left">216</td>
+<td align="left">1~117</td>
+<td align="left">172</td>
+</tr>
+<tr>
+<td align="left">1588</td>
+<td align="left">392</td>
+<td align="left">1~245</td>
+<td align="left">344</td>
+</tr>
+</tbody></table>
+<h3 id="AES、DES"><a href="#AES、DES" class="headerlink" title="AES、DES"></a>AES、DES</h3><p>AES、DES 等加密算法的密文通常没有固定的长度，通常使用 crypto-js 来实现</p>
+<p>在 crypto-js 中，也有一些特定的关键字，我们可以通过搜索这些关键字来快速定位到 crypto-js：</p>
+<ul>
+<li><code>CryptoJS</code>、<code>crypto-js</code>、<code>iv</code>、<code>mode</code>、<code>padding</code>、<code>createEncryptor</code>、<code>createDecryptor</code></li>
+<li><code>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=</code>、<code>0xffffffff</code>、<code>0xffff</code></li>
+</ul>
+<p>定位到 CryptoJS 后，观察加密方法，比如 AES 就是 <code>CryptoJS.AES.encrypt</code>，DES 就是 <code>CryptoJS.DES.encrypt</code>，注意他的 iv、mode、padding，拿下来就可以本地复现了。</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            ANGING
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/">
+            http://example.com/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2023/11/23/%E6%96%87%E7%AB%A0%E6%A0%87%E9%A2%98/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">文章标题 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86"><span class="toc-number">1.</span> <span class="toc-text">爬虫密文加密与解密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">编码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#base%E7%B3%BB%E5%88%97%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">base系列编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.2.</span> <span class="toc-text">Unicode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL-Hex%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">URL &#x2F; Hex编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MD5"><span class="toc-number">1.2.1.</span> <span class="toc-text">MD5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHA-%E7%B3%BB%E5%88%97"><span class="toc-number">1.2.2.</span> <span class="toc-text">SHA 系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HMAC%E7%B3%BB%E5%88%97"><span class="toc-number">1.2.3.</span> <span class="toc-text">HMAC系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA"><span class="toc-number">1.2.4.</span> <span class="toc-text">RSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES%E3%80%81DES"><span class="toc-number">1.2.5.</span> <span class="toc-text">AES、DES</span></a></li></ol></li></ol></li></ol>
+</div>
+            </main>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86"><span class="toc-number">1.</span> <span class="toc-text">爬虫密文加密与解密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">编码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#base%E7%B3%BB%E5%88%97%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">base系列编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.2.</span> <span class="toc-text">Unicode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL-Hex%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">URL &#x2F; Hex编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">加密算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MD5"><span class="toc-number">1.2.1.</span> <span class="toc-text">MD5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHA-%E7%B3%BB%E5%88%97"><span class="toc-number">1.2.2.</span> <span class="toc-text">SHA 系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HMAC%E7%B3%BB%E5%88%97"><span class="toc-number">1.2.3.</span> <span class="toc-text">HMAC系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA"><span class="toc-number">1.2.4.</span> <span class="toc-text">RSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AES%E3%80%81DES"><span class="toc-number">1.2.5.</span> <span class="toc-text">AES、DES</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-11-25</div>
+        <a href="/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/"><div class="recent-posts-item-content">爬虫密文加密与解密</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-11-23</div>
+        <a href="/2023/11/23/%E6%96%87%E7%AB%A0%E6%A0%87%E9%A2%98/"><div class="recent-posts-item-content">文章标题</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-11-23</div>
+        <a href="/2023/11/23/hello-world/"><div class="recent-posts-item-content">Hello World</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2023
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          ANGING的博客
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+    
+    <script src="//instant.page/5.1.0" type="module"
+      integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
