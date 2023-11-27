@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="ang-ing">
+  <link 
+    rel="icon" 
+    href="/">
+  <title>当乐网——登录接口pwd逆向</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="当乐网——登录接口pwd逆向">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://ang-ing.github.io/2023/11/27/%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="https://img.songhn.com/img/Y67gdd.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2023-11-27">
+      <meta 
+        property="og:article:modified_time" 
+        content="2023-11-27">
+      <meta 
+        property="og:article:author" 
+        content="ANGING">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="爬虫逆向">
+        
+      
+    
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  <link rel="preload" href="/css/main.css" as="style" >
+  
+  <link rel="modulepreload" href="//instant.page/5.1.0">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+  
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <a class="navbar-logo-main" href="/">
+      
+      <span class="navbar-logo-dsc">ANGING的博客</span>
+      </a>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <button 
+      class="navbar-menu-item darknavbar navbar-menu-btn" 
+      aria-label="Toggle dark mode"
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </button>
+    <button 
+      class="navbar-menu-item searchnavbar navbar-menu-btn" 
+      aria-label="Toggle search"
+      id="search">
+      <!-- <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i> -->
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+        class="iconify iconify--ion" width="28" height="28" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M256 80a176 176 0 1 0 176 176A176 176 0 0 0 256 80Z"></path>
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M232 160a72 72 0 1 0 72 72a72 72 0 0 0-72-72Z"></path>
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="28"
+          d="M283.64 283.64L336 336"></path>
+      </svg>
+    </button>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="https://img.songhn.com/img/Y67gdd.png" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">ANGING</p>
+<p class="author-description">学习记录</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>3</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>1</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91"><span class="toc-number">1.</span> <span class="toc-text">当乐网——登录接口pwd逆向</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/%E7%88%AC%E8%99%AB/">
+        <div class="categories-list-item">
+          爬虫
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/" 
+        title="爬虫逆向">
+        <div class="tags-list-item">爬虫逆向</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" 
+        title="大数据">
+        <div class="tags-list-item">大数据</div>
+      </a>
+    
+      <a 
+        href="/tags/%E7%88%AC%E8%99%AB/" 
+        title="爬虫">
+        <div class="tags-list-item">爬虫</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <main class="main-column">
+              
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      当乐网——登录接口pwd逆向
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2023-11-27T12:18:23.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2023-11-27</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>3.1k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/" 
+            class="post-meta-link">
+            爬虫逆向
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="当乐网——登录接口pwd逆向"><a href="#当乐网——登录接口pwd逆向" class="headerlink" title="当乐网——登录接口pwd逆向"></a>当乐网——登录接口pwd逆向</h1><p><strong>登录接口：<a target="_blank" rel="noopener" href="https://oauth.d.cn/auth/login">https://oauth.d.cn/auth/login</a></strong></p>
+<p><strong>js加密代码</strong></p>
+<pre class="highlight"><span class="line"><span class="keyword">var</span> biRadixBase = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> biRadixBits = <span class="number">16</span>;</span><br><span class="line"><span class="keyword">var</span> bitsPerDigit = biRadixBits;</span><br><span class="line"><span class="keyword">var</span> biRadix = <span class="number">1</span> &lt;&lt; <span class="number">16</span>; <span class="comment">// = 2^16 = 65536</span></span><br><span class="line"><span class="keyword">var</span> biHalfRadix = biRadix &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> biRadixSquared = biRadix * biRadix;</span><br><span class="line"><span class="keyword">var</span> maxDigitVal = biRadix - <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> maxInteger = <span class="number">9999999999999998</span>;</span><br><span class="line"><span class="keyword">var</span> maxDigits;</span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">ZERO_ARRAY</span>;</span><br><span class="line"><span class="keyword">var</span> bigZero, bigOne;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">setMaxDigits</span>(<span class="params">value</span>) &#123;</span><br><span class="line">    maxDigits = value;</span><br><span class="line">    <span class="variable constant_">ZERO_ARRAY</span> = <span class="keyword">new</span> <span class="title class_">Array</span>(maxDigits);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> iza = <span class="number">0</span>; iza &lt; <span class="variable constant_">ZERO_ARRAY</span>.<span class="property">length</span>; iza++) <span class="variable constant_">ZERO_ARRAY</span>[iza] = <span class="number">0</span>;</span><br><span class="line">    bigZero = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    bigOne = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    bigOne.<span class="property">digits</span>[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">setMaxDigits</span>(<span class="number">20</span>);</span><br><span class="line"><span class="keyword">var</span> dpl10 = <span class="number">15</span>;</span><br><span class="line"><span class="keyword">var</span> lr10 = <span class="title function_">biFromNumber</span>(<span class="number">1000000000000000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">BigInt</span>(<span class="params">flag</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> flag == <span class="string">&quot;boolean&quot;</span> &amp;&amp; flag == <span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">digits</span> = <span class="literal">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">digits</span> = <span class="variable constant_">ZERO_ARRAY</span>.<span class="title function_">slice</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isNeg</span> = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biFromDecimal</span>(<span class="params">s</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> isNeg = s.<span class="title function_">charAt</span>(<span class="number">0</span>) == <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> i = isNeg ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> result;.</span><br><span class="line">    <span class="keyword">while</span> (i &lt; s.<span class="property">length</span> &amp;&amp; s.<span class="title function_">charAt</span>(i) == <span class="string">&#x27;0&#x27;</span>) ++i;</span><br><span class="line">    <span class="keyword">if</span> (i == s.<span class="property">length</span>) &#123;</span><br><span class="line">        result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> digitCount = s.<span class="property">length</span> - i;</span><br><span class="line">        <span class="keyword">var</span> fgl = digitCount % dpl10;</span><br><span class="line">        <span class="keyword">if</span> (fgl == <span class="number">0</span>) fgl = dpl10;</span><br><span class="line">        result = <span class="title function_">biFromNumber</span>(<span class="title class_">Number</span>(s.<span class="title function_">substr</span>(i, fgl)));</span><br><span class="line">        i += fgl;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; s.<span class="property">length</span>) &#123;</span><br><span class="line">            result = <span class="title function_">biAdd</span>(<span class="title function_">biMultiply</span>(result, lr10),</span><br><span class="line">                <span class="title function_">biFromNumber</span>(<span class="title class_">Number</span>(s.<span class="title function_">substr</span>(i, dpl10))));</span><br><span class="line">            i += dpl10;</span><br><span class="line">        &#125;</span><br><span class="line">        result.<span class="property">isNeg</span> = isNeg;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biCopy</span>(<span class="params">bi</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>(<span class="literal">true</span>);</span><br><span class="line">    result.<span class="property">digits</span> = bi.<span class="property">digits</span>.<span class="title function_">slice</span>(<span class="number">0</span>);</span><br><span class="line">    result.<span class="property">isNeg</span> = bi.<span class="property">isNeg</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biFromNumber</span>(<span class="params">i</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    result.<span class="property">isNeg</span> = i &lt; <span class="number">0</span>;</span><br><span class="line">    i = <span class="title class_">Math</span>.<span class="title function_">abs</span>(i);</span><br><span class="line">    <span class="keyword">var</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        result.<span class="property">digits</span>[j++] = i &amp; maxDigitVal;</span><br><span class="line">        i &gt;&gt;= biRadixBits;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">reverseStr</span>(<span class="params">s</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = s.<span class="property">length</span> - <span class="number">1</span>; i &gt; -<span class="number">1</span>; --i) &#123;</span><br><span class="line">        result += s.<span class="title function_">charAt</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> hexatrigesimalToChar = <span class="keyword">new</span> <span class="title class_">Array</span>(</span><br><span class="line">    <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;j&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;t&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;u&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;z&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biToString</span>(<span class="params">x, radix</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    b.<span class="property">digits</span>[<span class="number">0</span>] = radix;</span><br><span class="line">    <span class="keyword">var</span> qr = <span class="title function_">biDivideModulo</span>(x, b);</span><br><span class="line">    <span class="keyword">var</span> result = hexatrigesimalToChar[qr[<span class="number">1</span>].<span class="property">digits</span>[<span class="number">0</span>]];</span><br><span class="line">    <span class="keyword">while</span> (<span class="title function_">biCompare</span>(qr[<span class="number">0</span>], bigZero) == <span class="number">1</span>) &#123;</span><br><span class="line">        qr = <span class="title function_">biDivideModulo</span>(qr[<span class="number">0</span>], b);</span><br><span class="line">        digit = qr[<span class="number">1</span>].<span class="property">digits</span>[<span class="number">0</span>];</span><br><span class="line">        result += hexatrigesimalToChar[qr[<span class="number">1</span>].<span class="property">digits</span>[<span class="number">0</span>]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (x.<span class="property">isNeg</span> ? <span class="string">&quot;-&quot;</span> : <span class="string">&quot;&quot;</span>) + <span class="title function_">reverseStr</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biToDecimal</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    b.<span class="property">digits</span>[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">var</span> qr = <span class="title function_">biDivideModulo</span>(x, b);</span><br><span class="line">    <span class="keyword">var</span> result = <span class="title class_">String</span>(qr[<span class="number">1</span>].<span class="property">digits</span>[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">while</span> (<span class="title function_">biCompare</span>(qr[<span class="number">0</span>], bigZero) == <span class="number">1</span>) &#123;</span><br><span class="line">        qr = <span class="title function_">biDivideModulo</span>(qr[<span class="number">0</span>], b);</span><br><span class="line">        result += <span class="title class_">String</span>(qr[<span class="number">1</span>].<span class="property">digits</span>[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (x.<span class="property">isNeg</span> ? <span class="string">&quot;-&quot;</span> : <span class="string">&quot;&quot;</span>) + <span class="title function_">reverseStr</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> hexToChar = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;f&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">digitToHex</span>(<span class="params">n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> mask = <span class="number">0xf</span>;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i) &#123;</span><br><span class="line">        result += hexToChar[n &amp; mask];</span><br><span class="line">        n &gt;&gt;&gt;= <span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">reverseStr</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biToHex</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> n = <span class="title function_">biHighIndex</span>(x);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="title function_">biHighIndex</span>(x); i &gt; -<span class="number">1</span>; --i) &#123;</span><br><span class="line">        result += <span class="title function_">digitToHex</span>(x.<span class="property">digits</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">charToHex</span>(<span class="params">c</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="variable constant_">ZERO</span> = <span class="number">48</span>;</span><br><span class="line">    <span class="keyword">var</span> <span class="variable constant_">NINE</span> = <span class="variable constant_">ZERO</span> + <span class="number">9</span>;</span><br><span class="line">    <span class="keyword">var</span> littleA = <span class="number">97</span>;</span><br><span class="line">    <span class="keyword">var</span> littleZ = littleA + <span class="number">25</span>;</span><br><span class="line">    <span class="keyword">var</span> bigA = <span class="number">65</span>;</span><br><span class="line">    <span class="keyword">var</span> bigZ = <span class="number">65</span> + <span class="number">25</span>;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (c &gt;= <span class="variable constant_">ZERO</span> &amp;&amp; c &lt;= <span class="variable constant_">NINE</span>) &#123;</span><br><span class="line">        result = c - <span class="variable constant_">ZERO</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c &gt;= bigA &amp;&amp; c &lt;= bigZ) &#123;</span><br><span class="line">        result = <span class="number">10</span> + c - bigA;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c &gt;= littleA &amp;&amp; c &lt;= littleZ) &#123;</span><br><span class="line">        result = <span class="number">10</span> + c - littleA;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">hexToDigit</span>(<span class="params">s</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> sl = <span class="title class_">Math</span>.<span class="title function_">min</span>(s.<span class="property">length</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; sl; ++i) &#123;</span><br><span class="line">        result &lt;&lt;= <span class="number">4</span>;</span><br><span class="line">        result |= <span class="title function_">charToHex</span>(s.<span class="title function_">charCodeAt</span>(i))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biFromHex</span>(<span class="params">s</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="keyword">var</span> sl = s.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = sl, j = <span class="number">0</span>; i &gt; <span class="number">0</span>; i -= <span class="number">4</span>, ++j) &#123;</span><br><span class="line">        result.<span class="property">digits</span>[j] = <span class="title function_">hexToDigit</span>(s.<span class="title function_">substr</span>(<span class="title class_">Math</span>.<span class="title function_">max</span>(i - <span class="number">4</span>, <span class="number">0</span>), <span class="title class_">Math</span>.<span class="title function_">min</span>(i, <span class="number">4</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biFromString</span>(<span class="params">s, radix</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> isNeg = s.<span class="title function_">charAt</span>(<span class="number">0</span>) == <span class="string">&#x27;-&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> istop = isNeg ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="keyword">var</span> place = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    place.<span class="property">digits</span>[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// radix^0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = s.<span class="property">length</span> - <span class="number">1</span>; i &gt;= istop; i--) &#123;</span><br><span class="line">        <span class="keyword">var</span> c = s.<span class="title function_">charCodeAt</span>(i);</span><br><span class="line">        <span class="keyword">var</span> digit = <span class="title function_">charToHex</span>(c);</span><br><span class="line">        <span class="keyword">var</span> biDigit = <span class="title function_">biMultiplyDigit</span>(place, digit);</span><br><span class="line">        result = <span class="title function_">biAdd</span>(result, biDigit);</span><br><span class="line">        place = <span class="title function_">biMultiplyDigit</span>(place, radix);</span><br><span class="line">    &#125;</span><br><span class="line">    result.<span class="property">isNeg</span> = isNeg;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biToBytes</span>(<span class="params">x</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="title function_">biHighIndex</span>(x); i &gt; -<span class="number">1</span>; --i) &#123;</span><br><span class="line">        result += <span class="title function_">digitToBytes</span>(x.<span class="property">digits</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">digitToBytes</span>(<span class="params">n</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> c1 = <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(n &amp; <span class="number">0xff</span>);</span><br><span class="line">    n &gt;&gt;&gt;= <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">var</span> c2 = <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(n &amp; <span class="number">0xff</span>);</span><br><span class="line">    <span class="keyword">return</span> c2 + c1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biDump</span>(<span class="params">b</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (b.<span class="property">isNeg</span> ? <span class="string">&quot;-&quot;</span> : <span class="string">&quot;&quot;</span>) + b.<span class="property">digits</span>.<span class="title function_">join</span>(<span class="string">&quot; &quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biAdd</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (x.<span class="property">isNeg</span> != y.<span class="property">isNeg</span>) &#123;</span><br><span class="line">        y.<span class="property">isNeg</span> = !y.<span class="property">isNeg</span>;</span><br><span class="line">        result = <span class="title function_">biSubtract</span>(x, y);</span><br><span class="line">        y.<span class="property">isNeg</span> = !y.<span class="property">isNeg</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">        <span class="keyword">var</span> c = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">var</span> n;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; x.<span class="property">digits</span>.<span class="property">length</span>; ++i) &#123;</span><br><span class="line">            n = x.<span class="property">digits</span>[i] + y.<span class="property">digits</span>[i] + c;</span><br><span class="line">            result.<span class="property">digits</span>[i] = n &amp; <span class="number">0xffff</span>;</span><br><span class="line">            c = <span class="title class_">Number</span>(n &gt;= biRadix);</span><br><span class="line">        &#125;</span><br><span class="line">        result.<span class="property">isNeg</span> = x.<span class="property">isNeg</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biSubtract</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    <span class="keyword">if</span> (x.<span class="property">isNeg</span> != y.<span class="property">isNeg</span>) &#123;</span><br><span class="line">        y.<span class="property">isNeg</span> = !y.<span class="property">isNeg</span>;</span><br><span class="line">        result = <span class="title function_">biAdd</span>(x, y);</span><br><span class="line">        y.<span class="property">isNeg</span> = !y.<span class="property">isNeg</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">        <span class="keyword">var</span> n, c;</span><br><span class="line">        c = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; x.<span class="property">digits</span>.<span class="property">length</span>; ++i) &#123;</span><br><span class="line">            n = x.<span class="property">digits</span>[i] - y.<span class="property">digits</span>[i] + c;</span><br><span class="line">            result.<span class="property">digits</span>[i] = n &amp; <span class="number">0xffff</span>;</span><br><span class="line">            <span class="keyword">if</span> (result.<span class="property">digits</span>[i] &lt; <span class="number">0</span>) result.<span class="property">digits</span>[i] += biRadix;</span><br><span class="line">            c = <span class="number">0</span> - <span class="title class_">Number</span>(n &lt; <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (c == -<span class="number">1</span>) &#123;</span><br><span class="line">            c = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; x.<span class="property">digits</span>.<span class="property">length</span>; ++i) &#123;</span><br><span class="line">                n = <span class="number">0</span> - result.<span class="property">digits</span>[i] + c;</span><br><span class="line">                result.<span class="property">digits</span>[i] = n &amp; <span class="number">0xffff</span>;</span><br><span class="line">                <span class="keyword">if</span> (result.<span class="property">digits</span>[i] &lt; <span class="number">0</span>) result.<span class="property">digits</span>[i] += biRadix;</span><br><span class="line">                c = <span class="number">0</span> - <span class="title class_">Number</span>(n &lt; <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            result.<span class="property">isNeg</span> = !x.<span class="property">isNeg</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result.<span class="property">isNeg</span> = x.<span class="property">isNeg</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biHighIndex</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = x.<span class="property">digits</span>.<span class="property">length</span> - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (result &gt; <span class="number">0</span> &amp;&amp; x.<span class="property">digits</span>[result] == <span class="number">0</span>) --result;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biNumBits</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> n = <span class="title function_">biHighIndex</span>(x);</span><br><span class="line">    <span class="keyword">var</span> d = x.<span class="property">digits</span>[n];</span><br><span class="line">    <span class="keyword">var</span> m = (n + <span class="number">1</span>) * bitsPerDigit;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    <span class="keyword">for</span> (result = m; result &gt; m - bitsPerDigit; --result) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((d &amp; <span class="number">0x8000</span>) != <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        d &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biMultiply</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="keyword">var</span> c;</span><br><span class="line">    <span class="keyword">var</span> n = <span class="title function_">biHighIndex</span>(x);</span><br><span class="line">    <span class="keyword">var</span> t = <span class="title function_">biHighIndex</span>(y);</span><br><span class="line">    <span class="keyword">var</span> u, uv, k;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt;= t; ++i) &#123;</span><br><span class="line">        c = <span class="number">0</span>;</span><br><span class="line">        k = i;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt;= n; ++j, ++k) &#123;</span><br><span class="line">            uv = result.<span class="property">digits</span>[k] + x.<span class="property">digits</span>[j] * y.<span class="property">digits</span>[i] + c;</span><br><span class="line">            result.<span class="property">digits</span>[k] = uv &amp; maxDigitVal;</span><br><span class="line">            c = uv &gt;&gt;&gt; biRadixBits;</span><br><span class="line">        &#125;</span><br><span class="line">        result.<span class="property">digits</span>[i + n + <span class="number">1</span>] = c;</span><br><span class="line">    &#125;</span><br><span class="line">    result.<span class="property">isNeg</span> = x.<span class="property">isNeg</span> != y.<span class="property">isNeg</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biMultiplyDigit</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> n, c, uv;</span><br><span class="line"></span><br><span class="line">    result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    n = <span class="title function_">biHighIndex</span>(x);</span><br><span class="line">    c = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt;= n; ++j) &#123;</span><br><span class="line">        uv = result.<span class="property">digits</span>[j] + x.<span class="property">digits</span>[j] * y + c;</span><br><span class="line">        result.<span class="property">digits</span>[j] = uv &amp; maxDigitVal;</span><br><span class="line">        c = uv &gt;&gt;&gt; biRadixBits;</span><br><span class="line">    &#125;</span><br><span class="line">    result.<span class="property">digits</span>[<span class="number">1</span> + n] = c;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">arrayCopy</span>(<span class="params">src, srcStart, dest, destStart, n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> m = <span class="title class_">Math</span>.<span class="title function_">min</span>(srcStart + n, src.<span class="property">length</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = srcStart, j = destStart; i &lt; m; ++i, ++j) &#123;</span><br><span class="line">        dest[j] = src[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> highBitMasks = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">0x0000</span>, <span class="number">0x8000</span>, <span class="number">0xC000</span>, <span class="number">0xE000</span>, <span class="number">0xF000</span>, <span class="number">0xF800</span>,</span><br><span class="line">    <span class="number">0xFC00</span>, <span class="number">0xFE00</span>, <span class="number">0xFF00</span>, <span class="number">0xFF80</span>, <span class="number">0xFFC0</span>, <span class="number">0xFFE0</span>,</span><br><span class="line">    <span class="number">0xFFF0</span>, <span class="number">0xFFF8</span>, <span class="number">0xFFFC</span>, <span class="number">0xFFFE</span>, <span class="number">0xFFFF</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biShiftLeft</span>(<span class="params">x, n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> digitCount = <span class="title class_">Math</span>.<span class="title function_">floor</span>(n / bitsPerDigit);</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="title function_">arrayCopy</span>(x.<span class="property">digits</span>, <span class="number">0</span>, result.<span class="property">digits</span>, digitCount,</span><br><span class="line">        result.<span class="property">digits</span>.<span class="property">length</span> - digitCount);</span><br><span class="line">    <span class="keyword">var</span> bits = n % bitsPerDigit;</span><br><span class="line">    <span class="keyword">var</span> rightBits = bitsPerDigit - bits;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = result.<span class="property">digits</span>.<span class="property">length</span> - <span class="number">1</span>, i1 = i - <span class="number">1</span>; i &gt; <span class="number">0</span>; --i, --i1) &#123;</span><br><span class="line">        result.<span class="property">digits</span>[i] = ((result.<span class="property">digits</span>[i] &lt;&lt; bits) &amp; maxDigitVal) |</span><br><span class="line">            ((result.<span class="property">digits</span>[i1] &amp; highBitMasks[bits]) &gt;&gt;&gt;</span><br><span class="line">                (rightBits));</span><br><span class="line">    &#125;</span><br><span class="line">    result.<span class="property">digits</span>[<span class="number">0</span>] = ((result.<span class="property">digits</span>[i] &lt;&lt; bits) &amp; maxDigitVal);</span><br><span class="line">    result.<span class="property">isNeg</span> = x.<span class="property">isNeg</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> lowBitMasks = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">0x0000</span>, <span class="number">0x0001</span>, <span class="number">0x0003</span>, <span class="number">0x0007</span>, <span class="number">0x000F</span>, <span class="number">0x001F</span>,</span><br><span class="line">    <span class="number">0x003F</span>, <span class="number">0x007F</span>, <span class="number">0x00FF</span>, <span class="number">0x01FF</span>, <span class="number">0x03FF</span>, <span class="number">0x07FF</span>,</span><br><span class="line">    <span class="number">0x0FFF</span>, <span class="number">0x1FFF</span>, <span class="number">0x3FFF</span>, <span class="number">0x7FFF</span>, <span class="number">0xFFFF</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biShiftRight</span>(<span class="params">x, n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> digitCount = <span class="title class_">Math</span>.<span class="title function_">floor</span>(n / bitsPerDigit);</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="title function_">arrayCopy</span>(x.<span class="property">digits</span>, digitCount, result.<span class="property">digits</span>, <span class="number">0</span>,</span><br><span class="line">        x.<span class="property">digits</span>.<span class="property">length</span> - digitCount);</span><br><span class="line">    <span class="keyword">var</span> bits = n % bitsPerDigit;</span><br><span class="line">    <span class="keyword">var</span> leftBits = bitsPerDigit - bits;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, i1 = i + <span class="number">1</span>; i &lt; result.<span class="property">digits</span>.<span class="property">length</span> - <span class="number">1</span>; ++i, ++i1) &#123;</span><br><span class="line">        result.<span class="property">digits</span>[i] = (result.<span class="property">digits</span>[i] &gt;&gt;&gt; bits) |</span><br><span class="line">            ((result.<span class="property">digits</span>[i1] &amp; lowBitMasks[bits]) &lt;&lt; leftBits);</span><br><span class="line">    &#125;</span><br><span class="line">    result.<span class="property">digits</span>[result.<span class="property">digits</span>.<span class="property">length</span> - <span class="number">1</span>] &gt;&gt;&gt;= bits;</span><br><span class="line">    result.<span class="property">isNeg</span> = x.<span class="property">isNeg</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biMultiplyByRadixPower</span>(<span class="params">x, n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="title function_">arrayCopy</span>(x.<span class="property">digits</span>, <span class="number">0</span>, result.<span class="property">digits</span>, n, result.<span class="property">digits</span>.<span class="property">length</span> - n);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biDivideByRadixPower</span>(<span class="params">x, n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="title function_">arrayCopy</span>(x.<span class="property">digits</span>, n, result.<span class="property">digits</span>, <span class="number">0</span>, result.<span class="property">digits</span>.<span class="property">length</span> - n);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biModuloByRadixPower</span>(<span class="params">x, n</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="title function_">arrayCopy</span>(x.<span class="property">digits</span>, <span class="number">0</span>, result.<span class="property">digits</span>, <span class="number">0</span>, n);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biCompare</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (x.<span class="property">isNeg</span> != y.<span class="property">isNeg</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> - <span class="number">2</span> * <span class="title class_">Number</span>(x.<span class="property">isNeg</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = x.<span class="property">digits</span>.<span class="property">length</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (x.<span class="property">digits</span>[i] != y.<span class="property">digits</span>[i]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (x.<span class="property">isNeg</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span> - <span class="number">2</span> * <span class="title class_">Number</span>(x.<span class="property">digits</span>[i] &gt; y.<span class="property">digits</span>[i]);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span> - <span class="number">2</span> * <span class="title class_">Number</span>(x.<span class="property">digits</span>[i] &lt; y.<span class="property">digits</span>[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biDivideModulo</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> nb = <span class="title function_">biNumBits</span>(x);</span><br><span class="line">    <span class="keyword">var</span> tb = <span class="title function_">biNumBits</span>(y);</span><br><span class="line">    <span class="keyword">var</span> origYIsNeg = y.<span class="property">isNeg</span>;</span><br><span class="line">    <span class="keyword">var</span> q, r;</span><br><span class="line">    <span class="keyword">if</span> (nb &lt; tb) &#123;</span><br><span class="line">        <span class="keyword">if</span> (x.<span class="property">isNeg</span>) &#123;</span><br><span class="line">            q = <span class="title function_">biCopy</span>(bigOne);</span><br><span class="line">            q.<span class="property">isNeg</span> = !y.<span class="property">isNeg</span>;</span><br><span class="line">            x.<span class="property">isNeg</span> = <span class="literal">false</span>;</span><br><span class="line">            y.<span class="property">isNeg</span> = <span class="literal">false</span>;</span><br><span class="line">            r = <span class="title function_">biSubtract</span>(y, x);</span><br><span class="line">            x.<span class="property">isNeg</span> = <span class="literal">true</span>;</span><br><span class="line">            y.<span class="property">isNeg</span> = origYIsNeg;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            q = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">            r = <span class="title function_">biCopy</span>(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Array</span>(q, r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    q = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    r = x;</span><br><span class="line">    <span class="keyword">var</span> t = <span class="title class_">Math</span>.<span class="title function_">ceil</span>(tb / bitsPerDigit) - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">var</span> lambda = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (y.<span class="property">digits</span>[t] &lt; biHalfRadix) &#123;</span><br><span class="line">        y = <span class="title function_">biShiftLeft</span>(y, <span class="number">1</span>);</span><br><span class="line">        ++lambda;</span><br><span class="line">        ++tb;</span><br><span class="line">        t = <span class="title class_">Math</span>.<span class="title function_">ceil</span>(tb / bitsPerDigit) - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    r = <span class="title function_">biShiftLeft</span>(r, lambda);</span><br><span class="line">    nb += lambda; </span><br><span class="line">    <span class="keyword">var</span> n = <span class="title class_">Math</span>.<span class="title function_">ceil</span>(nb / bitsPerDigit) - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> b = <span class="title function_">biMultiplyByRadixPower</span>(y, n - t);</span><br><span class="line">    <span class="keyword">while</span> (<span class="title function_">biCompare</span>(r, b) != -<span class="number">1</span>) &#123;</span><br><span class="line">        ++q.<span class="property">digits</span>[n - t];</span><br><span class="line">        r = <span class="title function_">biSubtract</span>(r, b);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = n; i &gt; t; --i) &#123;</span><br><span class="line">        <span class="keyword">var</span> ri = (i &gt;= r.<span class="property">digits</span>.<span class="property">length</span>) ? <span class="number">0</span> : r.<span class="property">digits</span>[i];</span><br><span class="line">        <span class="keyword">var</span> ri1 = (i - <span class="number">1</span> &gt;= r.<span class="property">digits</span>.<span class="property">length</span>) ? <span class="number">0</span> : r.<span class="property">digits</span>[i - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">var</span> ri2 = (i - <span class="number">2</span> &gt;= r.<span class="property">digits</span>.<span class="property">length</span>) ? <span class="number">0</span> : r.<span class="property">digits</span>[i - <span class="number">2</span>];</span><br><span class="line">        <span class="keyword">var</span> yt = (t &gt;= y.<span class="property">digits</span>.<span class="property">length</span>) ? <span class="number">0</span> : y.<span class="property">digits</span>[t];</span><br><span class="line">        <span class="keyword">var</span> yt1 = (t - <span class="number">1</span> &gt;= y.<span class="property">digits</span>.<span class="property">length</span>) ? <span class="number">0</span> : y.<span class="property">digits</span>[t - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (ri == yt) &#123;</span><br><span class="line">            q.<span class="property">digits</span>[i - t - <span class="number">1</span>] = maxDigitVal;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            q.<span class="property">digits</span>[i - t - <span class="number">1</span>] = <span class="title class_">Math</span>.<span class="title function_">floor</span>((ri * biRadix + ri1) / yt);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> c1 = q.<span class="property">digits</span>[i - t - <span class="number">1</span>] * ((yt * biRadix) + yt1);</span><br><span class="line">        <span class="keyword">var</span> c2 = (ri * biRadixSquared) + ((ri1 * biRadix) + ri2);</span><br><span class="line">        <span class="keyword">while</span> (c1 &gt; c2) &#123;</span><br><span class="line">            --q.<span class="property">digits</span>[i - t - <span class="number">1</span>];</span><br><span class="line">            c1 = q.<span class="property">digits</span>[i - t - <span class="number">1</span>] * ((yt * biRadix) | yt1);</span><br><span class="line">            c2 = (ri * biRadix * biRadix) + ((ri1 * biRadix) + ri2);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        b = <span class="title function_">biMultiplyByRadixPower</span>(y, i - t - <span class="number">1</span>);</span><br><span class="line">        r = <span class="title function_">biSubtract</span>(r, <span class="title function_">biMultiplyDigit</span>(b, q.<span class="property">digits</span>[i - t - <span class="number">1</span>]));</span><br><span class="line">        <span class="keyword">if</span> (r.<span class="property">isNeg</span>) &#123;</span><br><span class="line">            r = <span class="title function_">biAdd</span>(r, b);</span><br><span class="line">            --q.<span class="property">digits</span>[i - t - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    r = <span class="title function_">biShiftRight</span>(r, lambda);</span><br><span class="line">    q.<span class="property">isNeg</span> = x.<span class="property">isNeg</span> != origYIsNeg;</span><br><span class="line">    <span class="keyword">if</span> (x.<span class="property">isNeg</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (origYIsNeg) &#123;</span><br><span class="line">            q = <span class="title function_">biAdd</span>(q, bigOne);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            q = <span class="title function_">biSubtract</span>(q, bigOne);</span><br><span class="line">        &#125;</span><br><span class="line">        y = <span class="title function_">biShiftRight</span>(y, lambda);</span><br><span class="line">        r = <span class="title function_">biSubtract</span>(y, r);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (r.<span class="property">digits</span>[<span class="number">0</span>] == <span class="number">0</span> &amp;&amp; <span class="title function_">biHighIndex</span>(r) == <span class="number">0</span>) r.<span class="property">isNeg</span> = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Array</span>(q, r);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biDivide</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">biDivideModulo</span>(x, y)[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biModulo</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">biDivideModulo</span>(x, y)[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biMultiplyMod</span>(<span class="params">x, y, m</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">biModulo</span>(<span class="title function_">biMultiply</span>(x, y), m);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biPow</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = bigOne;</span><br><span class="line">    <span class="keyword">var</span> a = x;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((y &amp; <span class="number">1</span>) != <span class="number">0</span>) result = <span class="title function_">biMultiply</span>(result, a);</span><br><span class="line">        y &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (y == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        a = <span class="title function_">biMultiply</span>(a, a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">biPowMod</span>(<span class="params">x, y, m</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = bigOne;</span><br><span class="line">    <span class="keyword">var</span> a = x;</span><br><span class="line">    <span class="keyword">var</span> k = y;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((k.<span class="property">digits</span>[<span class="number">0</span>] &amp; <span class="number">1</span>) != <span class="number">0</span>) result = <span class="title function_">biMultiplyMod</span>(result, a, m);</span><br><span class="line">        k = <span class="title function_">biShiftRight</span>(k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (k.<span class="property">digits</span>[<span class="number">0</span>] == <span class="number">0</span> &amp;&amp; <span class="title function_">biHighIndex</span>(k) == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        a = <span class="title function_">biMultiplyMod</span>(a, a, m);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*****************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="variable constant_">RSAAPP</span> = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable constant_">RSAAPP</span>.<span class="property">NoPadding</span> = <span class="string">&quot;NoPadding&quot;</span>;</span><br><span class="line"><span class="variable constant_">RSAAPP</span>.<span class="property">PKCS1Padding</span> = <span class="string">&quot;PKCS1Padding&quot;</span>;</span><br><span class="line"><span class="variable constant_">RSAAPP</span>.<span class="property">RawEncoding</span> = <span class="string">&quot;RawEncoding&quot;</span>;</span><br><span class="line"><span class="variable constant_">RSAAPP</span>.<span class="property">NumericEncoding</span> = <span class="string">&quot;NumericEncoding&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*****************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">RSAKeyPair</span>(<span class="params">encryptionExponent, decryptionExponent, modulus, keylen</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">e</span> = <span class="title function_">biFromHex</span>(encryptionExponent);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">d</span> = <span class="title function_">biFromHex</span>(decryptionExponent);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">m</span> = <span class="title function_">biFromHex</span>(modulus);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> (keylen) != <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">chunkSize</span> = <span class="number">2</span> * <span class="title function_">biHighIndex</span>(<span class="variable language_">this</span>.<span class="property">m</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">chunkSize</span> = keylen / <span class="number">8</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">radix</span> = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">barrett</span> = <span class="keyword">new</span> <span class="title class_">BarrettMu</span>(<span class="variable language_">this</span>.<span class="property">m</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*****************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">encryptedString</span>(<span class="params">key, s, pad, encoding</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> <span class="title class_">Array</span>();                    <span class="comment">// The usual Alice and Bob stuff</span></span><br><span class="line">    <span class="keyword">var</span> sl = s.<span class="property">length</span>;                      <span class="comment">// Plaintext string length</span></span><br><span class="line">    <span class="keyword">var</span> i, j, k;                            <span class="comment">// The usual Fortran index stuff</span></span><br><span class="line">    <span class="keyword">var</span> padtype;                            <span class="comment">// Type of padding to do</span></span><br><span class="line">    <span class="keyword">var</span> encodingtype;                       <span class="comment">// Type of output encoding</span></span><br><span class="line">    <span class="keyword">var</span> rpad;                               <span class="comment">// Random pad</span></span><br><span class="line">    <span class="keyword">var</span> al;                                 <span class="comment">// Array length</span></span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">&quot;&quot;</span>;                        <span class="comment">// Cypthertext result</span></span><br><span class="line">    <span class="keyword">var</span> block;                              <span class="comment">// Big integer block to encrypt</span></span><br><span class="line">    <span class="keyword">var</span> crypt;                              <span class="comment">// Big integer result</span></span><br><span class="line">    <span class="keyword">var</span> text;                               <span class="comment">// Text result</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> (pad) == <span class="string">&#x27;string&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pad == <span class="variable constant_">RSAAPP</span>.<span class="property">NoPadding</span>) &#123;</span><br><span class="line">            padtype = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pad == <span class="variable constant_">RSAAPP</span>.<span class="property">PKCS1Padding</span>) &#123;</span><br><span class="line">            padtype = <span class="number">2</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            padtype = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        padtype = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> (encoding) == <span class="string">&#x27;string&#x27;</span> &amp;&amp; encoding == <span class="variable constant_">RSAAPP</span>.<span class="property">RawEncoding</span>) &#123;</span><br><span class="line">        encodingtype = <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        encodingtype = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (padtype == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sl &gt; key.<span class="property">chunkSize</span>) &#123;</span><br><span class="line">            sl = key.<span class="property">chunkSize</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (padtype == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sl &gt; (key.<span class="property">chunkSize</span> - <span class="number">11</span>)) &#123;</span><br><span class="line">            sl = key.<span class="property">chunkSize</span> - <span class="number">11</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (padtype == <span class="number">2</span>) &#123;</span><br><span class="line">        j = sl - <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        j = key.<span class="property">chunkSize</span> - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt; sl) &#123;</span><br><span class="line">        <span class="keyword">if</span> (padtype) &#123;</span><br><span class="line">            a[j] = s.<span class="title function_">charCodeAt</span>(i);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            a[i] = s.<span class="title function_">charCodeAt</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (padtype == <span class="number">1</span>) &#123;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    j = key.<span class="property">chunkSize</span> - (sl % key.<span class="property">chunkSize</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (padtype == <span class="number">2</span>) &#123;</span><br><span class="line">            rpad = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">256</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (!rpad) &#123;</span><br><span class="line">                rpad = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">256</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            a[i] = rpad;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            a[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (padtype == <span class="number">2</span>) &#123;</span><br><span class="line">        a[sl] = <span class="number">0</span>;</span><br><span class="line">        a[key.<span class="property">chunkSize</span> - <span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line">        a[key.<span class="property">chunkSize</span> - <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    al = a.<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; al; i += key.<span class="property">chunkSize</span>) &#123;</span><br><span class="line">        block = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line"></span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (k = i; k &lt; (i + key.<span class="property">chunkSize</span>); ++j) &#123;</span><br><span class="line">            block.<span class="property">digits</span>[j] = a[k++];</span><br><span class="line">            block.<span class="property">digits</span>[j] += a[k++] &lt;&lt; <span class="number">8</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        crypt = key.<span class="property">barrett</span>.<span class="title function_">powMod</span>(block, key.<span class="property">e</span>);</span><br><span class="line">        <span class="keyword">if</span> (encodingtype == <span class="number">1</span>) &#123;</span><br><span class="line">            text = <span class="title function_">biToBytes</span>(crypt);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            text = (key.<span class="property">radix</span> == <span class="number">16</span>) ? <span class="title function_">biToHex</span>(crypt) : <span class="title function_">biToString</span>(crypt, key.<span class="property">radix</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        result += text;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*****************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">decryptedString</span>(<span class="params">key, c</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> blocks = c.<span class="title function_">split</span>(<span class="string">&quot; &quot;</span>);              <span class="comment">// Multiple blocks of cyphertext</span></span><br><span class="line">    <span class="keyword">var</span> b;                                  <span class="comment">// The usual Alice and Bob stuff</span></span><br><span class="line">    <span class="keyword">var</span> i, j;                               <span class="comment">// The usual Fortran index stuff</span></span><br><span class="line">    <span class="keyword">var</span> bi;                                 <span class="comment">// Cyphertext as a big integer</span></span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">&quot;&quot;</span>;                        <span class="comment">// Plaintext result</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; blocks.<span class="property">length</span>; ++i) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (key.<span class="property">radix</span> == <span class="number">16</span>) &#123;</span><br><span class="line">            bi = <span class="title function_">biFromHex</span>(blocks[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            bi = <span class="title function_">biFromString</span>(blocks[i], key.<span class="property">radix</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        b = key.<span class="property">barrett</span>.<span class="title function_">powMod</span>(bi, key.<span class="property">d</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt;= <span class="title function_">biHighIndex</span>(b); ++j) &#123;</span><br><span class="line">            result += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(b.<span class="property">digits</span>[j] &amp; <span class="number">255</span>, b.<span class="property">digits</span>[j] &gt;&gt; <span class="number">8</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result.<span class="title function_">charCodeAt</span>(result.<span class="property">length</span> - <span class="number">1</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">        result = result.<span class="title function_">substring</span>(<span class="number">0</span>, result.<span class="property">length</span> - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">BarrettMu</span>(<span class="params">m</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">modulus</span> = <span class="title function_">biCopy</span>(m);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">k</span> = <span class="title function_">biHighIndex</span>(<span class="variable language_">this</span>.<span class="property">modulus</span>) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">var</span> b2k = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    b2k.<span class="property">digits</span>[<span class="number">2</span> * <span class="variable language_">this</span>.<span class="property">k</span>] = <span class="number">1</span>; <span class="comment">// b2k = b^(2k)</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">mu</span> = <span class="title function_">biDivide</span>(b2k, <span class="variable language_">this</span>.<span class="property">modulus</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">bkplus1</span> = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">bkplus1</span>.<span class="property">digits</span>[<span class="variable language_">this</span>.<span class="property">k</span> + <span class="number">1</span>] = <span class="number">1</span>; <span class="comment">// bkplus1 = b^(k+1)</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">modulo</span> = <span class="title class_">BarrettMu</span>_modulo;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">multiplyMod</span> = <span class="title class_">BarrettMu</span>_multiplyMod;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">powMod</span> = <span class="title class_">BarrettMu</span>_powMod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">BarrettMu_modulo</span>(<span class="params">x</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> q1 = <span class="title function_">biDivideByRadixPower</span>(x, <span class="variable language_">this</span>.<span class="property">k</span> - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> q2 = <span class="title function_">biMultiply</span>(q1, <span class="variable language_">this</span>.<span class="property">mu</span>);</span><br><span class="line">    <span class="keyword">var</span> q3 = <span class="title function_">biDivideByRadixPower</span>(q2, <span class="variable language_">this</span>.<span class="property">k</span> + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> r1 = <span class="title function_">biModuloByRadixPower</span>(x, <span class="variable language_">this</span>.<span class="property">k</span> + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> r2term = <span class="title function_">biMultiply</span>(q3, <span class="variable language_">this</span>.<span class="property">modulus</span>);</span><br><span class="line">    <span class="keyword">var</span> r2 = <span class="title function_">biModuloByRadixPower</span>(r2term, <span class="variable language_">this</span>.<span class="property">k</span> + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> r = <span class="title function_">biSubtract</span>(r1, r2);</span><br><span class="line">    <span class="keyword">if</span> (r.<span class="property">isNeg</span>) &#123;</span><br><span class="line">        r = <span class="title function_">biAdd</span>(r, <span class="variable language_">this</span>.<span class="property">bkplus1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> rgtem = <span class="title function_">biCompare</span>(r, <span class="variable language_">this</span>.<span class="property">modulus</span>) &gt;= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (rgtem) &#123;</span><br><span class="line">        r = <span class="title function_">biSubtract</span>(r, <span class="variable language_">this</span>.<span class="property">modulus</span>);</span><br><span class="line">        rgtem = <span class="title function_">biCompare</span>(r, <span class="variable language_">this</span>.<span class="property">modulus</span>) &gt;= <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">BarrettMu_multiplyMod</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> xy = <span class="title function_">biMultiply</span>(x, y);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">modulo</span>(xy);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">BarrettMu_powMod</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="title class_">BigInt</span>();</span><br><span class="line">    result.<span class="property">digits</span>[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">var</span> a = x;</span><br><span class="line">    <span class="keyword">var</span> k = y;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((k.<span class="property">digits</span>[<span class="number">0</span>] &amp; <span class="number">1</span>) != <span class="number">0</span>) result = <span class="variable language_">this</span>.<span class="title function_">multiplyMod</span>(result, a);</span><br><span class="line">        k = <span class="title function_">biShiftRight</span>(k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (k.<span class="property">digits</span>[<span class="number">0</span>] == <span class="number">0</span> &amp;&amp; <span class="title function_">biHighIndex</span>(k) == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        a = <span class="variable language_">this</span>.<span class="title function_">multiplyMod</span>(a, a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rsa = <span class="keyword">function</span> (<span class="params">arg</span>) &#123;</span><br><span class="line">    <span class="title function_">setMaxDigits</span>(<span class="number">130</span>);</span><br><span class="line">    <span class="keyword">var</span> <span class="title class_">PublicExponent</span> = <span class="string">&quot;10001&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> modulus = <span class="string">&quot;be44aec4d73408f6b60e6fe9e3dc55d0e1dc53a1e171e071b547e2e8e0b7da01c56e8c9bcf0521568eb111adccef4e40124b76e33e7ad75607c227af8f8e0b759c30ef283be8ab17a84b19a051df5f94c07e6e7be5f77866376322aac944f45f3ab532bb6efc70c1efa524d821d16cafb580c5a901f0defddea3692a4e68e6cd&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> key = <span class="keyword">new</span> <span class="title class_">RSAKeyPair</span>(<span class="title class_">PublicExponent</span>, <span class="string">&quot;&quot;</span>, modulus);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">encryptedString</span>(key, arg);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">rsa</span>(<span class="string">&quot;123456&quot;</span>))</span><br></pre>
+
+
+
+<p><strong>python执行js代码：</strong></p>
+<pre class="highlight"><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> execjs</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;rsa.js&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    dd = f.read()</span><br><span class="line">pwd = execjs.<span class="built_in">compile</span>(dd).call(<span class="string">&#x27;rsa&#x27;</span>, <span class="string">&quot;123456&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(pwd)</span><br><span class="line"></span><br></pre>
+
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            ANGING
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://ang-ing.github.io/2023/11/27/%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91/">
+            http://ang-ing.github.io/2023/11/27/%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2023/11/27/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">分布式理论基本概念 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91"><span class="toc-number">1.</span> <span class="toc-text">当乐网——登录接口pwd逆向</span></a></li></ol>
+</div>
+            </main>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91"><span class="toc-number">1.</span> <span class="toc-text">当乐网——登录接口pwd逆向</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-11-27</div>
+        <a href="/2023/11/27/%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91/"><div class="recent-posts-item-content">当乐网——登录接口pwd逆向</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-11-27</div>
+        <a href="/2023/11/27/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"><div class="recent-posts-item-content">分布式理论基本概念</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-11-25</div>
+        <a href="/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/"><div class="recent-posts-item-content">爬虫密文加密与解密</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2023
+          
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          ANGING的博客
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+    
+    <script src="//instant.page/5.1.0" type="module"
+      integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
