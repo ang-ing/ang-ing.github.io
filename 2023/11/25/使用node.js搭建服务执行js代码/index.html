@@ -18,17 +18,17 @@
   <link 
     rel="icon" 
     href="/">
-  <title>分布式理论基本概念</title>
+  <title>使用node.js搭建服务执行js代码</title>
   
     
       <meta 
         property="og:title" 
-        content="分布式理论基本概念">
+        content="使用node.js搭建服务执行js代码">
     
     
       <meta 
         property="og:url" 
-        content="http://ang-ing.github.io/2023/11/27/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+        content="http://ang-ing.github.io/2023/11/25/%E4%BD%BF%E7%94%A8node.js%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%89%A7%E8%A1%8Cjs%E4%BB%A3%E7%A0%81/index.html">
     
     
       <meta 
@@ -42,10 +42,10 @@
         content="article">
       <meta 
         property="og:article:published_time" 
-        content="2023-11-27">
+        content="2023-11-25">
       <meta 
         property="og:article:modified_time" 
-        content="2023-11-27">
+        content="2023-12-11">
       <meta 
         property="og:article:author" 
         content="ANGING">
@@ -53,7 +53,7 @@
         
           <meta 
             property="og:article:tag" 
-            content="大数据">
+            content="node.js">
         
       
     
@@ -307,7 +307,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">分布式理论基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%EF%BC%88Cluster%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">集群（Cluster）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%88Load-Balancer%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">负载均衡（Load Balancer）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">分布式架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">集中式与分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.1.</span> <span class="toc-text">集中式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.2.</span> <span class="toc-text">分布式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81%EF%BC%9A"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">主要特征：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E6%80%A7"><span class="toc-number">2.1.2.1.1.</span> <span class="toc-text">分布性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E7%AD%89%E6%80%A7"><span class="toc-number">2.1.2.1.2.</span> <span class="toc-text">对等性</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E9%9D%A2%E4%B8%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">分布式系统面临的问题</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8node-js%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%89%A7%E8%A1%8Cjs%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">使用node.js搭建服务执行js代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">1、初始化项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2、安装依赖：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%9A%E6%9C%AC%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">3、创建服务器脚本：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">4、运行服务：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81-Python-%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">5、 Python 测试脚本</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -393,30 +393,30 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      分布式理论基本概念
+      使用node.js搭建服务执行js代码
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2023-11-27T12:15:21.000Z">
+    <time datetime="2023-11-25T10:03:33.000Z">
       <i 
         class="iconfont icon-calendar" 
         style="margin-right: 2px;">
       </i>
-      <span>2023-11-27</span>
+      <span>2023-11-25</span>
     </time>
     
       <span class="dot"></span>
       
         <a 
-          href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" 
+          href="/categories/node-js/" 
           class="post-meta-link">
-          大数据
+          node.js
         </a>
       
     
     
       <span class="dot"></span>
-      <span>1.2k 字</span>
+      <span>434 字</span>
     
   </div>
   
@@ -431,9 +431,9 @@
         
           
           <a 
-            href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" 
+            href="/tags/node-js/" 
             class="post-meta-link">
-            大数据
+            node.js
           </a>
         
       </div>
@@ -443,56 +443,24 @@
   <div 
     id="section" 
     class="post-content">
-    <h1 id="分布式理论基本概念"><a href="#分布式理论基本概念" class="headerlink" title="分布式理论基本概念"></a>分布式理论基本概念</h1><h2 id="集群（Cluster）"><a href="#集群（Cluster）" class="headerlink" title="集群（Cluster）"></a>集群（Cluster）</h2><p>将一个系统部署在不同的服务器上运行，这些服务器组合在一起称为<strong>集群</strong></p>
-<h2 id="负载均衡（Load-Balancer）"><a href="#负载均衡（Load-Balancer）" class="headerlink" title="负载均衡（Load Balancer）"></a>负载均衡（Load Balancer）</h2><p>所谓负载均衡，就是将接收的请求，通过指定的服务器，将请求进行分流，分别交给集群中不同的服务器进行处理，从而降低系统的压力。</p>
-<h1 id="分布式架构"><a href="#分布式架构" class="headerlink" title="分布式架构"></a>分布式架构</h1><h2 id="集中式与分布式"><a href="#集中式与分布式" class="headerlink" title="集中式与分布式"></a>集中式与分布式</h2><h3 id="集中式系统"><a href="#集中式系统" class="headerlink" title="集中式系统"></a>集中式系统</h3><p>集中式系统，就是指一台或多台主计算机组成的中心节点，数据集中存储在这个中心节点中，并且整个系统的所有业务单元也都集中在这个中心节点上，所有的功能均有其集中处理。</p>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ul>
-<li>部署结构非常简单</li>
-</ul>
-<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><ul>
-<li>系统大、复杂</li>
-<li>难于维护</li>
-<li>如果其中某一个功能发生故障，整个系统或者网络将陷入瘫痪状态</li>
-<li>拓展性差</li>
-</ul>
-<h3 id="分布式系统"><a href="#分布式系统" class="headerlink" title="分布式系统"></a>分布式系统</h3><p>分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系统。</p>
-<h4 id="主要特征："><a href="#主要特征：" class="headerlink" title="主要特征："></a>主要特征：</h4><ul>
-<li><h5 id="分布性"><a href="#分布性" class="headerlink" title="分布性"></a>分布性</h5><p>分布式系统中的多台计算机之间在空间位置上可以随意分布，同时，机器的分布情况也会随时发生变化</p>
-</li>
-<li><h5 id="对等性"><a href="#对等性" class="headerlink" title="对等性"></a>对等性</h5><p>分布式系统中的计算机没有主／从之分，即没有控制整个系统的主机，也没有被控制的从机，组成分布式系统的所有计算机节点都是对等的。</p>
-<ul>
-<li><p><strong>副本</strong></p>
-<p>副本是分布式系统常见的概念之一，指的是分布式系统对数据和服务提供的一种冗余方式。</p>
-<p>在常见的分布式系统中，为了对外提供高可用的服务，往往会对数据和服务进行副本处理。</p>
-<p>数据副本是指在不同的节点上持久化同一份数据，当某个节点上的存储的数据丢失时，可以从副本上读取该数据，这是解决分布式系统数据丢失问题最为有效的手段。</p>
-<p>服务副本是指多个节点提供同样的服务，每个节点都有能力接受来自外部的请求，并进行相应的处理。</p>
-</li>
-</ul>
-</li>
-<li><p>并发性</p>
-<p>在一个计算机网络中，程序运行过程的并发性操作是非常常见的行为。</p>
-</li>
-<li><p>缺乏全局时钟</p>
-<p>在分布式系统中，很难定义两个事件究竟谁先谁后，原因就是因为分布式系统缺乏一个全局的时钟序列控制。</p>
-</li>
-<li><p>故障总是发生</p>
-<p>组成分布式系统的所有计算机，都有可能发生任何形式的故障。除非需求指标允许，在系统设计时不能放过任何异常情况。</p>
-</li>
-</ul>
-<h2 id="分布式系统面临的问题"><a href="#分布式系统面临的问题" class="headerlink" title="分布式系统面临的问题"></a>分布式系统面临的问题</h2><ul>
-<li><p>通信异常</p>
-<p>分布式系统需要在各个节点之间进行网络通信，因此网络通信都会伴随着网络不可用的风险或是系统不可用都会导致最终分布式系统无法顺利完成一次网络通信。另外，即使分布式系统各节点之间的网络通信能够正常进行，其延时也会远大于单机操作，会影响消息的收发的过程，因此消息丢失和消息延迟变得非常普遍。</p>
-</li>
-<li><p>网络分区</p>
-<p>当网络由于发生异常情况，导致分布式系统中部分节点之间的网络延时不断增大，最终导致组成分布式系统的所有节点中，只有部分节点之间能够进行正常通信，而另一些节点则不能——我们将这个现象称为网络分区，就是俗称的“脑裂”。当网络分区出现时，分布式系统会出现局部小集群，在极端情况下，这些局部小集群会独立完成原本需要整个分布式才能完成的功能，这就对分布式一致性提出类非常大的挑战。</p>
-</li>
-<li><p>三态</p>
-<p>分布式系统的每一次请求与响应，存在特有的“三态”概念，即成功、失败与超时。当出现超时现象时，网络通信的发起方是无法确定当前请求是否被成功处理的。</p>
-</li>
-<li><p>节点故障</p>
-<p>节点故障则是分布式环境下另一个比较常见的问题，指的是组成分布式系统的服务器节点出现的宕机或“僵死”现象。</p>
-</li>
-</ul>
+    <p>[TOC]</p>
+<h1 id="使用node-js搭建服务执行js代码"><a href="#使用node-js搭建服务执行js代码" class="headerlink" title="使用node.js搭建服务执行js代码"></a>使用node.js搭建服务执行js代码</h1><p>要使用 Node.js 搭建一个执行 JavaScript 代码的服务器，你可以使用 Express.js 这样的框架来简化服务器的创建和路由管理。下面是一个简单的例子，使用 Express.js 搭建一个执行 JavaScript 代码的服务器：首先，确保你已经安装了 Node.js 和 npm（Node.js 包管理器）。</p>
+<h2 id="1、初始化项目"><a href="#1、初始化项目" class="headerlink" title="1、初始化项目"></a>1、初始化项目</h2><p><strong>在Linux环境中</strong>：在命令行中，创建一个新文件夹，进入该文件夹，并运行以下命令来初始化项目：</p>
+<pre class="highlight"><span class="line"><span class="built_in">mkdir</span> 文件夹名称</span><br><span class="line"><span class="built_in">cd</span> 文件夹名称</span><br><span class="line">npm init -y</span><br></pre>
+
+<p>这将创建一个 <code>package.json</code> 文件。<code>在windows环境下也是同理。</code></p>
+<h2 id="2、安装依赖："><a href="#2、安装依赖：" class="headerlink" title="2、安装依赖："></a>2、安装依赖：</h2><pre class="highlight"><span class="line">npm install express body-parser</span><br></pre>
+
+<h2 id="3、创建服务器脚本："><a href="#3、创建服务器脚本：" class="headerlink" title="3、创建服务器脚本："></a>3、创建服务器脚本：</h2><p>创建一个名为 <code>server.js</code> 的文件，并将以下代码复制到文件中：</p>
+<pre class="highlight"><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">&#x27;body-parser&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(bodyParser.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/execute&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; code &#125; = req.<span class="property">body</span>;</span><br><span class="line">        <span class="keyword">const</span> result = <span class="built_in">eval</span>(<span class="string">`(<span class="subst">$&#123;code&#125;</span>)`</span>);</span><br><span class="line">        res.<span class="title function_">json</span>(&#123; result &#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">json</span>(&#123; <span class="attr">error</span>: error.<span class="property">message</span> &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Server is running at http://localhost:<span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre>
+
+<h2 id="4、运行服务："><a href="#4、运行服务：" class="headerlink" title="4、运行服务："></a>4、运行服务：</h2><p>在命令行中运行以下命令启动服务器：</p>
+<pre class="highlight"><span class="line">node server.js</span><br></pre>
+
+<p>服务器将在 <code>http://localhost:3000</code> 上运行。</p>
+<h2 id="5、-Python-测试脚本"><a href="#5、-Python-测试脚本" class="headerlink" title="5、 Python 测试脚本"></a>5、 Python 测试脚本</h2><p>使用 <code>requests</code> 库发送 POST 请求：</p>
+<pre class="highlight"><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://localhost:3000/execute&#x27;</span></span><br><span class="line"></span><br><span class="line">code = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">function add(a, b) &#123;</span></span><br><span class="line"><span class="string">    return a + b;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">add(3, 7);</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">data = &#123;<span class="string">&#x27;code&#x27;</span>: code&#125;</span><br><span class="line">response = requests.post(url, json=data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">    result = response.json()[<span class="string">&#x27;result&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;执行结果: <span class="subst">&#123;result&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    error = response.json()[<span class="string">&#x27;error&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;错误信息: <span class="subst">&#123;error&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br></pre>
+
 
   </div>
   <div>
@@ -512,8 +480,8 @@
           <span style="font-weight: bold;">文章链接：</span><a 
             target="_blank" 
             rel="nofollow noopener noreferrer" 
-            href="http://ang-ing.github.io/2023/11/27/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
-            http://ang-ing.github.io/2023/11/27/%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/
+            href="http://ang-ing.github.io/2023/11/25/%E4%BD%BF%E7%94%A8node.js%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%89%A7%E8%A1%8Cjs%E4%BB%A3%E7%A0%81/">
+            http://ang-ing.github.io/2023/11/25/%E4%BD%BF%E7%94%A8node.js%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%89%A7%E8%A1%8Cjs%E4%BB%A3%E7%A0%81/
           </a>
         </p>
         <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
@@ -525,32 +493,18 @@
   
     <div class="nav-item-prev">
       <a 
-        href="/2023/11/27/%E5%BD%93%E4%B9%90%E7%BD%91%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3pwd%E9%80%86%E5%90%91/" 
+        href="/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/" 
         class="nav-link">
         <i class="iconfont icon-left nav-prev-icon"></i>
         <div>
           <div class="nav-label">上一篇</div>
           
-            <div class="nav-title">当乐网——登录接口pwd逆向 </div>
-          
-        </div>
-      </a>
-    </div>
-  
-  
-    <div class="nav-item-next">
-      <a 
-        href="/2023/11/25/%E7%88%AC%E8%99%AB%E5%AF%86%E6%96%87%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86/" 
-        class="nav-link">
-        <div>
-          <div class="nav-label">下一篇</div>
-          
             <div class="nav-title">爬虫密文加密与解密 </div>
           
         </div>
-        <i class="iconfont icon-right nav-next-icon"></i>
       </a>
     </div>
+  
   
 </div>
 
@@ -563,7 +517,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">分布式理论基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%EF%BC%88Cluster%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">集群（Cluster）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%88Load-Balancer%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">负载均衡（Load Balancer）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">分布式架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">集中式与分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.1.</span> <span class="toc-text">集中式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.2.</span> <span class="toc-text">分布式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81%EF%BC%9A"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">主要特征：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E6%80%A7"><span class="toc-number">2.1.2.1.1.</span> <span class="toc-text">分布性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E7%AD%89%E6%80%A7"><span class="toc-number">2.1.2.1.2.</span> <span class="toc-text">对等性</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E9%9D%A2%E4%B8%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">分布式系统面临的问题</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8node-js%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%89%A7%E8%A1%8Cjs%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">使用node.js搭建服务执行js代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">1、初始化项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2、安装依赖：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%9A%E6%9C%AC%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">3、创建服务器脚本：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">4、运行服务：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81-Python-%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">5、 Python 测试脚本</span></a></li></ol></li></ol>
 </div>
             </main>
             <aside class="right-column">
@@ -577,7 +531,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">分布式理论基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%EF%BC%88Cluster%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">集群（Cluster）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%88Load-Balancer%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">负载均衡（Load Balancer）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">分布式架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">集中式与分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E4%B8%AD%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.1.</span> <span class="toc-text">集中式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">缺点：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.2.</span> <span class="toc-text">分布式系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81%EF%BC%9A"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">主要特征：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E6%80%A7"><span class="toc-number">2.1.2.1.1.</span> <span class="toc-text">分布性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%B9%E7%AD%89%E6%80%A7"><span class="toc-number">2.1.2.1.2.</span> <span class="toc-text">对等性</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E9%9D%A2%E4%B8%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">分布式系统面临的问题</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8node-js%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E6%89%A7%E8%A1%8Cjs%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">使用node.js搭建服务执行js代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">1、初始化项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2、安装依赖：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%9A%E6%9C%AC%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">3、创建服务器脚本：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">4、运行服务：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81-Python-%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">5、 Python 测试脚本</span></a></li></ol></li></ol>
     </article>
   
   
