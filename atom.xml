@@ -6,7 +6,7 @@
   <link href="https://ang-ing.github.io/atom.xml" rel="self"/>
   
   <link href="https://ang-ing.github.io/"/>
-  <updated>2024-09-08T05:54:04.475Z</updated>
+  <updated>2024-09-10T08:00:26.319Z</updated>
   <id>https://ang-ing.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>输出项目文件目录</title>
+    <link href="https://ang-ing.github.io/2024/09/10/%E8%BE%93%E5%87%BA%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/"/>
+    <id>https://ang-ing.github.io/2024/09/10/%E8%BE%93%E5%87%BA%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/</id>
+    <published>2024-09-10T07:59:31.000Z</published>
+    <updated>2024-09-10T08:00:26.319Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="输出项目文件目录"><a href="#输出项目文件目录" class="headerlink" title="输出项目文件目录"></a>输出项目文件目录</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要排除的目录列表</span></span><br><span class="line">exclude_dirs = [<span class="string">&#x27;venv&#x27;</span>, <span class="string">&#x27;node_modules&#x27;</span>, <span class="string">&#x27;.git&#x27;</span>, <span class="string">&quot;__pycache__&quot;</span>, <span class="string">&quot;.pytest_cache&quot;</span>, <span class="string">&quot;.idea&quot;</span>, <span class="string">&quot;.gitlab-ci.yml&quot;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_directory_tree</span>(<span class="params">root_dir, indent=<span class="string">&quot;&quot;</span></span>):</span><br><span class="line">    files = os.listdir(root_dir)</span><br><span class="line">    <span class="keyword">for</span> i, file <span class="keyword">in</span> <span class="built_in">enumerate</span>(files):</span><br><span class="line">        path = os.path.join(root_dir, file)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 排除不需要的目录</span></span><br><span class="line">        <span class="keyword">if</span> file <span class="keyword">in</span> exclude_dirs:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        is_last = (i == <span class="built_in">len</span>(files) - <span class="number">1</span>)</span><br><span class="line">        prefix = <span class="string">&quot;└── &quot;</span> <span class="keyword">if</span> is_last <span class="keyword">else</span> <span class="string">&quot;├── &quot;</span></span><br><span class="line">        <span class="built_in">print</span>(indent + prefix + file)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果是文件夹且不在排除列表中，递归打印其子目录</span></span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(path):</span><br><span class="line">            sub_indent = <span class="string">&quot;    &quot;</span> <span class="keyword">if</span> is_last <span class="keyword">else</span> <span class="string">&quot;│   &quot;</span></span><br><span class="line">            print_directory_tree(path, indent + sub_indent)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用函数展示当前目录</span></span><br><span class="line">print_directory_tree(<span class="string">&quot;.&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;输出项目文件目录&quot;&gt;&lt;a href=&quot;#输出项目文件目录&quot; class=&quot;headerlink&quot; title=&quot;输出项目文件目录&quot;&gt;&lt;/a&gt;输出项目文件目录&lt;/h1&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td c</summary>
+      
+    
+    
+    
+    
+    <category term="python" scheme="https://ang-ing.github.io/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>js逆向代理监听</title>
